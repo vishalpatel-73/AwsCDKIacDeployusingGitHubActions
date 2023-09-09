@@ -1,7 +1,7 @@
 import subprocess, logging, sys, boto3
 from json import load
 from os import environ
-#from lib.helper.helper import get_ssm_parameters
+from lib.helper.helper import get_ssm_parameters
 
 # Initialize Log handler
 logger = logging.getLogger("wrapper")
@@ -51,29 +51,28 @@ role_credentials = sts.assume_role(
     RoleSessionName='cdk1'
 )
 
-# # as we need some parameters created by other stacks or by deployment pipelines on Octopus
-# # we gather these parameter from SSM Parameters Store and pass then through cdk context
-# context = []
-# if env_name != "Management":
-#     context = get_ssm_parameters(session, param_filter=['/Management'])
-#     target_session = boto3.Session(
-#         aws_access_key_id=role_credentials.get('Credentials').get('AccessKeyId'),
-#         aws_secret_access_key=role_credentials.get('Credentials').get('SecretAccessKey'),
-#         aws_session_token=role_credentials.get('Credentials').get('SessionToken'),
-#         region_name=target_region
-#     )
-#     context += get_ssm_parameters(
-#         target_session,
-#         param_filter=[
-#             f"/{env_name}/reporting-service",
-#             f'/{env_name}/authentication',
-#             f'/{env_name}/eks'
-#         ]
-#     )
-#     if 'test' in env_name.lower():
-#         context += get_ssm_parameters(target_session, param_filter=['/TestShared'])
-# else:
-#     context = get_ssm_parameters(session, param_filter=['/Management'])
+# as we need some parameters created by other stacks or by deployment pipelines on Octopus
+# we gather these parameter from SSM Parameters Store and pass then through cdk context
+context = []
+if env_name != "Management":
+    context = get_ssm_parameters(session, param_filter=['/cdk/fas/'])
+    target_session = boto3.Session(
+        aws_access_key_id=role_credentials.get('Credentials').get('AccessKeyId'),
+        aws_secret_access_key=role_credentials.get('Credentials').get('SecretAccessKey'),
+        aws_session_token=role_credentials.get('Credentials').get('SessionToken'),
+        region_name=target_region
+    )
+    context += get_ssm_parameters(
+        target_session,
+        param_filter=[
+            f"/cdk/fas/ecr/lifecycle_policy_count",
+            f'/cdk/fas/environment'
+        ]
+    )
+    if 'test' in env_name.lower():
+        context += get_ssm_parameters(target_session, param_filter=['/cdk/fas/'])
+else:
+    context = get_ssm_parameters(session, param_filter=['/cdk/fas/'])
 
 
 # logger.info("Starting CDK synth process...")
