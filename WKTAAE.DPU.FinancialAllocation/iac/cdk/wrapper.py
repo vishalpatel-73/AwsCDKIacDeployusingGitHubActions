@@ -24,8 +24,9 @@ print(environ["ACCESS_KEY"])
 print(environ["SECRET_KEY"])
 
 print(environ["TARGET_ACCOUNT_ID_FOR_CDK"])
-print(environ["FA_AWS_ACCOUNT_REGION"])
-print(environ["FA_TARGET_ROLE_NAME"])
+print(environ["MANAGEMENT_AWS_REGION"])
+print(environ["TARGET_AWS_REGION"])
+print(environ["TARGET_ROLE_NAME"])
 
 # # Get Variables from GitHub Actions
 # access_key = environ["AWS_ACCESS_KEY_ID"]
