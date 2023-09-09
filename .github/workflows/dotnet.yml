@@ -11,18 +11,30 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    env:
+      IAC_DIR: iac
+      SRC_DIR: src
+      DOTNET_VERSION: '6.0.x'
+      CONFIGURATION: 'Release'
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
+    
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup .NET ${{ matrix.dotnet-version }}     
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
     - name: Restore dependencies
+      working-directory: ${{ env.SRC_DIR }}
       run: dotnet restore
+
     - name: Build
-      run: dotnet build --no-restore
+      working-directory: ${{ env.SRC_DIR }}
+      run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      working-directory: ${{ env.SRC_DIR }}
+      run: dotnet test --no-restore --no-build --verbosity normal
