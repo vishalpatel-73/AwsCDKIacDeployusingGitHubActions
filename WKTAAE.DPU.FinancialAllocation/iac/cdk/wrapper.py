@@ -19,9 +19,9 @@ print(environ["ENV_NAME"])
 # print(environ["AWS_ACCESS_KEY_ID"])
 # print(environ["AWS_SECRET_ACCESS_KEY"])
 
-# print(environ["ENVIRONMENT"])
-# print(environ["ACCESS_KEY"])
-# print(environ["SECRET_KEY"])
+print(environ["ENVIRONMENT"])
+print(environ["ACCESS_KEY"])
+print(environ["SECRET_KEY"])
 
 # # Get Variables from GitHub Actions
 # access_key = environ["AWS_ACCESS_KEY_ID"]
