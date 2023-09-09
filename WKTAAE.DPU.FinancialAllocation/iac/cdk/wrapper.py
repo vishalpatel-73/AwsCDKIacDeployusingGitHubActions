@@ -16,8 +16,8 @@ from os import environ
 # logger.addHandler(h2)
 
 print(environ["ENV_NAME"])
-print(environ["AWS_ACCESS_KEY_ID"])
-print(environ["AWS_SECRET_ACCESS_KEY"])
+# print(environ["AWS_ACCESS_KEY_ID"])
+# print(environ["AWS_SECRET_ACCESS_KEY"])
 
 # print(environ["ENVIRONMENT"])
 # print(environ["ACCESS_KEY"])
