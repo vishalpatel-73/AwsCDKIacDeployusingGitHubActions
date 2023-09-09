@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IAC_DIR: WKTAAE.DPU.FinancialAllocation/iac
-      SRC_DIR: WKTAAE.DPU.FinancialAllocation/src
-      ASF_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.ASF.Worker
-      FII_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.FII.Worker
-      SI_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.SI.Worker
+      SRC_DIR: WKTAAE.DPU.FinancialAllocation
+      ASF_WORKER_DIR: WKTAAE.DPU.Allocation.ASF.Worker
+      FII_WORKER_DIR: WKTAAE.DPU.Allocation.FII.Worker
+      SI_WORKER_DIR: WKTAAE.DPU.Allocation.SI.Worker
       ASF_WORKER_PROJ: WKTAAE.DPU.Allocation.ASF.Worker.csproj
       FII_WORKER_PROJ: WKTAAE.DPU.Allocation.FII.Worker.csproj
       SI_WORKER_PROJ: WKTAAE.DPU.Allocation.SI.Worker.csproj
@@ -56,26 +56,26 @@ jobs:
         working-directory: ${{ env.SI_WORKER_DIR }}
         run: dotnet publish ${{ env.SI_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
 
-      - name: Upload Worker artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ASF-worker
-          path: ${{ env.ASF_WORKER_DIR }}/publish
+      # - name: Upload Worker artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ASF-worker
+      #     path: ${{ env.ASF_WORKER_DIR }}/publish
 
-      - name: Upload Worker artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: FII-worker
-          path: ${{ env.FII_WORKER_DIR }}/publish
+      # - name: Upload Worker artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: FII-worker
+      #     path: ${{ env.FII_WORKER_DIR }}/publish
 
-      - name: Upload Worker artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: SI-worker
-          path: ${{ env.SI_WORKER_DIR }}/publish
+      # - name: Upload Worker artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: SI-worker
+      #     path: ${{ env.SI_WORKER_DIR }}/publish
 
-      - name: Upload IaC artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: financial-allocation-iac
-          path: ${{ env.IAC_DIR }}
+      # - name: Upload IaC artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: financial-allocation-iac
+      #     path: ${{ env.IAC_DIR }}
