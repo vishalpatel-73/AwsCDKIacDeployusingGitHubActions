@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.41" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Folder Include="IoC\" />
+	<Folder Include="Queries\Statement\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\WKTAAE.DPU.Allocation.Contracts\WKTAAE.DPU.Allocation.Contracts.csproj" />
+	<ProjectReference Include="..\WKTAAE.DPU.Allocation.Domain\WKTAAE.DPU.Allocation.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

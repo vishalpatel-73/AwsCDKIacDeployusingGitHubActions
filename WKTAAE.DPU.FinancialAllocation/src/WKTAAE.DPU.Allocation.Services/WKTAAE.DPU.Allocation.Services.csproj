@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+        <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="MediatR" Version="12.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Folder Include="EventHandlers\FISProxyEvents\" />
+    <Folder Include="EventHandlers\InternalSQSEvents\" />
+    <Folder Include="EventHandlers\RabbitMQEvents\" />
+    <Folder Include="IoC\" />
+    <Folder Include="CommandHandlers\" />
+    <Folder Include="ReadHandlers\Statement\" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\WKTAAE.DPU.Allocation.Common\WKTAAE.DPU.Allocation.Common.csproj" />
+    <ProjectReference Include="..\WKTAAE.DPU.Allocation.Contracts\WKTAAE.DPU.Allocation.Contracts.csproj" />
+    <ProjectReference Include="..\WKTAAE.DPU.Allocation.Domain\WKTAAE.DPU.Allocation.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

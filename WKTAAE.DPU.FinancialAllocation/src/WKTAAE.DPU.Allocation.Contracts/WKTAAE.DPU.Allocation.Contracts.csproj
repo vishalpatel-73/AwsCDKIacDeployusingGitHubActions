@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+		<PackageReference Include="MediatR" Version="12.0.1" />
+		<PackageReference Include="Ulid" Version="1.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Folder Include="Events\RabbitMQ\" />
+	<Folder Include="Events\SQS\" />
+	<Folder Include="Events\ServiceBus\FIS\" />
+  </ItemGroup>
+
+</Project>
