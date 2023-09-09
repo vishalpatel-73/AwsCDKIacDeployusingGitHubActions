@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: ["master"]
 
+env:
+  MAJOR_VERSION: 1
+  MINOR_VERSION: 0
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,7 +51,7 @@ jobs:
       # - name: Publish Worker
       #   working-directory: ${{ env.ASF_WORKER_DIR }}
       #   run: dotnet publish ${{ env.ASF_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
-      
+
       # - name: Publish Worker
       #   working-directory: ${{ env.FII_WORKER_DIR }}
       #   run: dotnet publish ${{ env.FII_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
@@ -79,9 +83,9 @@ jobs:
         with:
           name: financial-allocation-iac
           path: ${{ env.IAC_DIR }}
-  
+
   deploy-cdk:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     needs: [build]
     env:
       CDK_DIR: cdk
@@ -91,3 +95,41 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: financial-allocation-iac
+
+      - name: Setup build version
+        run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}" >> $AWS_CDK_ENV
+
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk
+
+      - name: Replace Action
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          tokenPrefix: "#{"
+          tokenSuffix: "}"
+          files: "${{ env.LIB_DIR }}/params.py"
+        env:
+          ENV_NAME: ${{ env.ENV_NAME }}
+          ENV_TYPE: ${{ env.ENV_TYPE }}
+          REPORTING_SERVICE_CONFIG: ${{ env.REPORTING_SERVICE_CONFIG }}
+          BUILD_VERSION: ${{ env.BUILD_VERSION }}
+
+      - name: Install boto3 dependency
+        working-directory: ${{ env.CDK_DIR }}
+        run: pip install boto3
+
+      - name: Install All Dependencies
+        working-directory: ${{ env.CDK_DIR }}
+        run: pip install -r requirements.txt
+
+        # - name: Run python script to deploy infra
+        #   working-directory: ${{ env.CDK_DIR }}
+        #   run: python wrapper.py
+        #   env:
+        #     ENVIRONMENT: ${{ env.ENV_NAME }}
+        #     ACCESS_KEY: ${{ secrets.BASECONE_AWS_ACCOUNT_ACCESS_KEY_ID }}
+        #     SECRET_KEY: ${{ secrets.BASECONE_AWS_ACCOUNT_SECRET_ACCESS_KEY }}
+        #     TARGET_ACCOUNT_ID: ${{ env.TARGET_ACCOUNT_ID_FOR_CDK }}
+        #     MANAGEMENT_AWS_REGION: ${{ vars.BASECONE_AWS_ACCOUNT_REGION }}
+        #     TARGET_AWS_REGION: ${{ vars.BASECONE_TARGET_ACCOUNT_REGION }}
+        #     TARGET_ROLE_NAME: ${{ vars.BASECONE_TARGET_ROLE_NAME }}
