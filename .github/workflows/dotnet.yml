@@ -5,36 +5,62 @@ name: .NET
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IAC_DIR: iac
+      IAC_DIR: WKTAAE.DPU.FinancialAllocation/iac
       SRC_DIR: WKTAAE.DPU.FinancialAllocation
-      DOTNET_VERSION: '6.0.x'
-      CONFIGURATION: 'Release'
+      ASF_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.ASF.Worker
+      FII_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.FII.Worker
+      SI_WORKER_DIR: WKTAAE.DPU.FinancialAllocation/WKTAAE.DPU.Allocation.SI.Worker
+      DOTNET_VERSION: "6.0.x"
+      CONFIGURATION: "Release"
     steps:
-    
-    - name: Checkout code
-      uses: actions/checkout@v3
-    
-    - name: Setup .NET ${{ matrix.dotnet-version }}     
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Restore dependencies
-      working-directory: ${{ env.SRC_DIR }}
-      run: dotnet restore
+      - name: Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Build
-      working-directory: ${{ env.SRC_DIR }}
-      run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+      - name: Restore dependencies
+        working-directory: ${{ env.SRC_DIR }}
+        run: dotnet restore
 
-    - name: Test
-      working-directory: ${{ env.SRC_DIR }}
-      run: dotnet test --no-restore --no-build --verbosity normal
+      - name: Build
+        working-directory: ${{ env.SRC_DIR }}
+        run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+
+      - name: Test
+        working-directory: ${{ env.SRC_DIR }}
+        run: dotnet test --no-restore --no-build --verbosity normal
+
+      - name: Upload Worker artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ASF-worker
+          path: ${{ env.ASF_WORKER_DIR }}/publish
+
+      - name: Upload Worker artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: FII-worker
+          path: ${{ env.FII_WORKER_DIR }}/publish
+
+      - name: Upload Worker artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SI-worker
+          path: ${{ env.SI_WORKER_DIR }}/publish
+
+      - name: Upload IaC artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: financial-allocation-iac
+          path: ${{ env.IAC_DIR }}
