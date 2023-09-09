@@ -104,7 +104,7 @@ jobs:
         run: |
           echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV
-          # echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.FA_AWS_ACCOUNT }}" >> $GITHUB_ENV
+          echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.FA_AWS_ACCOUNT }}" >> $GITHUB_ENV
 
       - name: Setup build version
         run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}"
