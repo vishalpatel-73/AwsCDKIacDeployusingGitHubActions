@@ -79,3 +79,15 @@ jobs:
         with:
           name: financial-allocation-iac
           path: ${{ env.IAC_DIR }}
+  
+  deploy-cdk:
+    runs-on: ubuntu-latest    
+    needs: [build]
+    env:
+      CDK_DIR: cdk
+      LIB_DIR: cdk/lib
+    steps:
+      - name: Get IaC artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: financial-allocation-iac
