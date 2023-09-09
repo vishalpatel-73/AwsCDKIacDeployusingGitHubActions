@@ -96,8 +96,16 @@ jobs:
         with:
           name: financial-allocation-iac
 
+      # - name: Set environment variables for Test Environment
+      #   if: startsWith( github.ref_name, 'Test')
+      #   run: |
+      #       echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+      #       echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV
+      #       echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.BASECONE_TEST }}" >> $GITHUB_ENV
+      #       echo 'REPORTING_SERVICE_CONFIG=${{ vars.REPORTING_SERVICE_CONFIG_TEST }}' >> $GITHUB_ENV
+
       - name: Setup build version
-        run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}" >> $AWS_CDK_ENV
+        run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}"
 
       - name: Install AWS CDK
         run: npm install -g aws-cdk
@@ -110,8 +118,7 @@ jobs:
           files: "${{ env.LIB_DIR }}/params.py"
         env:
           ENV_NAME: ${{ env.ENV_NAME }}
-          ENV_TYPE: ${{ env.ENV_TYPE }}
-          REPORTING_SERVICE_CONFIG: ${{ env.REPORTING_SERVICE_CONFIG }}
+          ECR_CONFIG: ${{ env.ECR }}          
           BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Install boto3 dependency
