@@ -100,7 +100,7 @@ jobs:
           name: financial-allocation-iac
 
       - name: Set environment variables for Test Environment
-        if: startsWith( github.ref_name, 'Test')
+        if: startsWith( github.ref_name, 'master')
         run: |
             echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
             echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV            
@@ -129,11 +129,7 @@ jobs:
       - name: Install All Dependencies
         working-directory: ${{ env.CDK_DIR }}
         run: pip install -r requirements.txt
-
-      - name: "Echo Environment Variable"
-        run: |
-          echo "You will now have access to the ENV_NAME: ${{env.ENV_NAME}} environment variable in all your subsequent build steps"
-
+      
       # - name: Run python script to deploy infra
       #   working-directory: ${{ env.CDK_DIR }}
       #   run: python wrapper.py
