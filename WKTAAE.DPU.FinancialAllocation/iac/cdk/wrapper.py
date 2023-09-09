@@ -32,7 +32,6 @@ logger.addHandler(h2)
 env_name = environ['ENVIRONMENT']
 access_key = environ["ACCESS_KEY"]
 secret_key = environ["SECRET_KEY"]
-region = environ["AWS_DEFAULT_REGION"]
 target_account = environ['TARGET_ACCOUNT_ID']
 region = environ['MANAGEMENT_AWS_REGION']
 target_region = environ['TARGET_AWS_REGION']
