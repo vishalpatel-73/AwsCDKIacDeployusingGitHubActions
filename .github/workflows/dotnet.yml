@@ -99,13 +99,11 @@ jobs:
         with:
           name: financial-allocation-iac
 
-      # - name: Set environment variables for Test Environment
-      #   if: startsWith( github.ref_name, 'Test')
-      #   run: |
-      #       echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-      #       echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV
-      #       echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.BASECONE_TEST }}" >> $GITHUB_ENV
-      #       echo 'REPORTING_SERVICE_CONFIG=${{ vars.REPORTING_SERVICE_CONFIG_TEST }}' >> $GITHUB_ENV
+      - name: Set environment variables for Test Environment
+        if: startsWith( github.ref_name, 'Test')
+        run: |
+            echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+            echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV            
 
       - name: Setup build version
         run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}"
