@@ -1,7 +1,7 @@
 import subprocess, logging, sys, boto3
 from json import load
 from os import environ
-from lib.helper.helper import get_ssm_parameters
+#from lib.helper.helper import get_ssm_parameters
 
 # Initialize Log handler
 logger = logging.getLogger("wrapper")
