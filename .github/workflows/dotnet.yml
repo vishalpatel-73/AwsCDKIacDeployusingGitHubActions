@@ -104,7 +104,7 @@ jobs:
         run: |
           echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV
-          # echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.FINANCIALALLOCATION_TEST }}" >> $GITHUB_ENV
+          # echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.FA_AWS_ACCOUNT }}" >> $GITHUB_ENV
 
       - name: Setup build version
         run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}"
@@ -138,7 +138,7 @@ jobs:
           ENVIRONMENT: ${{ env.ENV_NAME }}
           ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
           SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # TARGET_ACCOUNT_ID: ${{ env.TARGET_ACCOUNT_ID_FOR_CDK }}
-          # MANAGEMENT_AWS_REGION: ${{ vars.BASECONE_AWS_ACCOUNT_REGION }}
-          # TARGET_AWS_REGION: ${{ vars.BASECONE_TARGET_ACCOUNT_REGION }}
-          # TARGET_ROLE_NAME: ${{ vars.BASECONE_TARGET_ROLE_NAME }}
+          TARGET_ACCOUNT_ID: ${{ env.TARGET_ACCOUNT_ID_FOR_CDK }}
+          MANAGEMENT_AWS_REGION: ${{ vars.FA_AWS_ACCOUNT_REGION }}
+          TARGET_AWS_REGION: ${{ vars.FA_AWS_ACCOUNT_REGION }}
+          TARGET_ROLE_NAME: ${{ vars.FA_TARGET_ROLE_NAME }}

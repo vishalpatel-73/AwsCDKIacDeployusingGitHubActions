@@ -16,12 +16,16 @@ from os import environ
 # logger.addHandler(h2)
 
 print(environ["ENV_NAME"])
-# print(environ["AWS_ACCESS_KEY_ID"])
-# print(environ["AWS_SECRET_ACCESS_KEY"])
+# print(environ["AWS_ACCESS_KEY_ID"]) # Not working
+# print(environ["AWS_SECRET_ACCESS_KEY"]) # Not working
 
 print(environ["ENVIRONMENT"])
 print(environ["ACCESS_KEY"])
 print(environ["SECRET_KEY"])
+
+print(environ["TARGET_ACCOUNT_ID_FOR_CDK"])
+print(environ["FA_AWS_ACCOUNT_REGION"])
+print(environ["FA_TARGET_ROLE_NAME"])
 
 # # Get Variables from GitHub Actions
 # access_key = environ["AWS_ACCESS_KEY_ID"]
