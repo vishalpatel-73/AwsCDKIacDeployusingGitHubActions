@@ -119,8 +119,8 @@ jobs:
           tokenSuffix: "}"
           files: "${{ env.LIB_DIR }}/params.py"
         env:
-          ENV_NAME: "Test15"
-          ENV_TYPE: ${{ env.ENV_TYPE }}          
+          ENV_NAME: "test"
+          ENV_TYPE: ${{ env.ENV_TYPE }}
           BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Install boto3 dependency

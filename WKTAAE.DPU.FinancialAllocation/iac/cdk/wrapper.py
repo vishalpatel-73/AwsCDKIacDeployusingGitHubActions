@@ -1,43 +1,112 @@
 import subprocess, logging, sys, boto3
 from json import load
 from os import environ
-# #from lib.helper.helper import get_ssm_parameters
+from lib.helper.helper import get_ssm_parameters
 
-# # Initialize Log handler
-# logger = logging.getLogger("wrapper")
-# logger.setLevel(logging.DEBUG)
+# Initialize Log handler
+logger = logging.getLogger("wrapper")
+logger.setLevel(logging.DEBUG)
 
-# h1 = logging.StreamHandler(sys.stdout)
-# h1.setLevel(logging.DEBUG)
-# h1.addFilter(lambda record: record.levelno <= logging.INFO)
-# h2 = logging.StreamHandler()
-# h2.setLevel(logging.WARNING)
-# logger.addHandler(h1)
-# logger.addHandler(h2)
+h1 = logging.StreamHandler(sys.stdout)
+h1.setLevel(logging.DEBUG)
+h1.addFilter(lambda record: record.levelno <= logging.INFO)
+h2 = logging.StreamHandler()
+h2.setLevel(logging.WARNING)
+logger.addHandler(h1)
+logger.addHandler(h2)
 
-print(environ["ENV_NAME"])
-# print(environ["AWS_ACCESS_KEY_ID"]) # Not working
-# print(environ["AWS_SECRET_ACCESS_KEY"]) # Not working
+# print(environ["ENV_NAME"])
+# # print(environ["AWS_ACCESS_KEY_ID"]) # Not working
+# # print(environ["AWS_SECRET_ACCESS_KEY"]) # Not working
 
-print(environ["ENVIRONMENT"])
-print(environ["ACCESS_KEY"])
-print(environ["SECRET_KEY"])
+# print(environ["ENVIRONMENT"])
+# print(environ["ACCESS_KEY"])
+# print(environ["SECRET_KEY"])
 
-print(environ["TARGET_ACCOUNT_ID_FOR_CDK"])
-print(environ["MANAGEMENT_AWS_REGION"])
-print(environ["TARGET_AWS_REGION"])
-print(environ["TARGET_ROLE_NAME"])
+# print(environ["TARGET_ACCOUNT_ID_FOR_CDK"])
+# print(environ["MANAGEMENT_AWS_REGION"])
+# print(environ["TARGET_AWS_REGION"])
+# print(environ["TARGET_ROLE_NAME"])
 
-# # Get Variables from GitHub Actions
-# access_key = environ["AWS_ACCESS_KEY_ID"]
-# secret_key = environ["AWS_SECRET_ACCESS_KEY"]
-## region = environ["AWS_DEFAULT_REGION"]
-# target_account = environ["cdk_account"]
-# target_role_name = environ["cdk_role"]
+# Get Variables from GitHub Actions
+env_name = environ['ENVIRONMENT']
+access_key = environ["ACCESS_KEY"]
+secret_key = environ["SECRET_KEY"]
+region = environ["AWS_DEFAULT_REGION"]
+target_account = environ['TARGET_ACCOUNT_ID']
+region = environ['MANAGEMENT_AWS_REGION']
+target_region = environ['TARGET_AWS_REGION']
+target_role_name = environ['TARGET_ROLE_NAME']
 
-# # authenticate with user credentials
-# session = boto3.Session(
-#     aws_access_key_id=access_key,
-#     aws_secret_access_key=secret_key,
-#     region_name=region
-# )
+# Authenticate with User Credentials
+session = boto3.Session(
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
+    region_name=region
+)
+
+# Assume Target Role
+sts = session.client('sts')
+role_credentials = sts.assume_role(
+    RoleArn=f'arn:aws:iam::{target_account}:role/{target_role_name}',
+    RoleSessionName='cdk1'
+)
+
+# # as we need some parameters created by other stacks or by deployment pipelines on Octopus
+# # we gather these parameter from SSM Parameters Store and pass then through cdk context
+# context = []
+# if env_name != "Management":
+#     context = get_ssm_parameters(session, param_filter=['/Management'])
+#     target_session = boto3.Session(
+#         aws_access_key_id=role_credentials.get('Credentials').get('AccessKeyId'),
+#         aws_secret_access_key=role_credentials.get('Credentials').get('SecretAccessKey'),
+#         aws_session_token=role_credentials.get('Credentials').get('SessionToken'),
+#         region_name=target_region
+#     )
+#     context += get_ssm_parameters(
+#         target_session,
+#         param_filter=[
+#             f"/{env_name}/reporting-service",
+#             f'/{env_name}/authentication',
+#             f'/{env_name}/eks'
+#         ]
+#     )
+#     if 'test' in env_name.lower():
+#         context += get_ssm_parameters(target_session, param_filter=['/TestShared'])
+# else:
+#     context = get_ssm_parameters(session, param_filter=['/Management'])
+
+
+# logger.info("Starting CDK synth process...")
+# r = subprocess.run([
+#     'cdk',
+#     'synth',
+#     '--no-color',
+#     '--progress',
+#     '--debug'
+#     '-vvv'
+#     'events'
+# ] + context, capture_output=True, text=True)
+# if r.returncode:
+#     logger.error(r.stderr)
+#     raise SystemExit('An error occurred!')
+# logger.debug(r.stdout)
+
+
+# # invoke the cdk deploy command
+# logger.info(f"Starting deployment of Reporting Service Stack for {env_name}")
+# r = subprocess.run([
+#     'cdk',
+#     'deploy',
+#     '-vvv',
+#     '--all',
+#     '--no-color',
+#     '--require-approval',
+#     'never',
+#     '--progress',
+#     'events'
+# ] + context, capture_output=True, text=True)
+# if r.returncode:
+#     logger.error(r.stderr)
+#     raise SystemExit('An error occurred!')
+# logger.debug(r.stdout)
