@@ -28,6 +28,9 @@ jobs:
       DOTNET_VERSION: "6.0.x"
       CONFIGURATION: "Release"
     steps:
+      - name: Print branch name
+        run: echo "Branch name ${GITHUB_REF_NAME}"
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -118,8 +121,8 @@ jobs:
           files: "${{ env.LIB_DIR }}/params.py"
         env:
           ENV_NAME: ${{ env.ENV_NAME }}
-          ECR_CONFIG: ${{ env.ECR }}          
-          BUILD_VERSION: ${{ env.BUILD_VERSION }}
+          # ECR_CONFIG: ${{ env.ECR }}
+          # BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Install boto3 dependency
         working-directory: ${{ env.CDK_DIR }}
@@ -129,14 +132,18 @@ jobs:
         working-directory: ${{ env.CDK_DIR }}
         run: pip install -r requirements.txt
 
-        # - name: Run python script to deploy infra
-        #   working-directory: ${{ env.CDK_DIR }}
-        #   run: python wrapper.py
-        #   env:
-        #     ENVIRONMENT: ${{ env.ENV_NAME }}
-        #     ACCESS_KEY: ${{ secrets.BASECONE_AWS_ACCOUNT_ACCESS_KEY_ID }}
-        #     SECRET_KEY: ${{ secrets.BASECONE_AWS_ACCOUNT_SECRET_ACCESS_KEY }}
-        #     TARGET_ACCOUNT_ID: ${{ env.TARGET_ACCOUNT_ID_FOR_CDK }}
-        #     MANAGEMENT_AWS_REGION: ${{ vars.BASECONE_AWS_ACCOUNT_REGION }}
-        #     TARGET_AWS_REGION: ${{ vars.BASECONE_TARGET_ACCOUNT_REGION }}
-        #     TARGET_ROLE_NAME: ${{ vars.BASECONE_TARGET_ROLE_NAME }}
+      - name: "Echo Environment Variable"
+        run: |
+          echo "You will now have access to the ENV_NAME: ${{env.ENV_NAME}} environment variable in all your subsequent build steps"
+
+      # - name: Run python script to deploy infra
+      #   working-directory: ${{ env.CDK_DIR }}
+      #   run: python wrapper.py
+      #   env:
+      #     ENVIRONMENT: ${{ env.ENV_NAME }}
+      #     ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     # TARGET_ACCOUNT_ID: ${{ env.TARGET_ACCOUNT_ID_FOR_CDK }}
+      #     # MANAGEMENT_AWS_REGION: ${{ vars.BASECONE_AWS_ACCOUNT_REGION }}
+      #     # TARGET_AWS_REGION: ${{ vars.BASECONE_TARGET_ACCOUNT_REGION }}
+      #     # TARGET_ROLE_NAME: ${{ vars.BASECONE_TARGET_ROLE_NAME }}
