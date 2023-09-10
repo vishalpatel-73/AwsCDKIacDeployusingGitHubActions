@@ -75,16 +75,16 @@ else:
     context = get_ssm_parameters(session, param_filter=["/cdk/fas/"])
 
 
-logger.info("Starting CDK synth process...")
-r = subprocess.run(
-    ["cdk", "synth", "--no-color", "--progress", "--debug" "-vvv" "events"], #+ context,
-    capture_output=True,
-    text=True,
-)
-if r.returncode:
-    logger.error(r.stderr)
-    raise SystemExit("An error occurred!")
-logger.debug(r.stdout)
+# logger.info("Starting CDK synth process...")
+# r = subprocess.run(
+#     ["cdk", "synth", "--no-color", "--progress", "--debug" "-vvv" "events"], #+ context,
+#     capture_output=True,
+#     text=True,
+# )
+# if r.returncode:
+#     logger.error(r.stderr)
+#     raise SystemExit("An error occurred!")
+# logger.debug(r.stdout)
 
 
 # invoke the cdk deploy command
