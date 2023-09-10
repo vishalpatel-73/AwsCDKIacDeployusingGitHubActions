@@ -52,6 +52,13 @@ role_credentials = sts.assume_role(
     RoleSessionName='cdk1'
 )
 
+print("Role: "+ role_credentials)
+
+print("Role: "+ role_credentials.get('Credentials').get('AccessKeyId'))
+print("Role: "+ role_credentials.get('Credentials').get('SecretAccessKey'))
+print("Role: "+ role_credentials.get('Credentials').get('SecretAccessKey'))
+
+
 # as we need some parameters created by other stacks or by deployment pipelines on Octopus
 # we gather these parameter from SSM Parameters Store and pass then through cdk context
 context = []
@@ -63,13 +70,13 @@ if env_name != "Management":
         aws_session_token=role_credentials.get('Credentials').get('SessionToken'),
         region_name=target_region
     )
-    context += get_ssm_parameters(
-        target_session,
-        param_filter=[
-            f"/cdk/fas/ecr/lifecycle_policy_count",
-            f'/cdk/fas/environment'
-        ]
-    )
+    # context += get_ssm_parameters(
+    #     target_session,
+    #     param_filter=[
+    #         f"/cdk/fas/ecr/lifecycle_policy_count",
+    #         f'/cdk/fas/environment'
+    #     ]
+    # )
     if 'test' in env_name.lower():
         context += get_ssm_parameters(target_session, param_filter=['/cdk/fas/'])
 else:
