@@ -2,6 +2,8 @@ import os
 from json import loads
 
 props = {
-    "env_name": os.getenv('cdk_environment'),
-    "ecr": {"lifecycle_policy_count": os.getenv('ecr_lifecycle_policy_count')},
+    "environment_name": "#{ENV_NAME}",
+    "financial_allocation": loads("""
+        #{FINANCIAL_ALLOCATION_CONFIG}
+    """)
 }

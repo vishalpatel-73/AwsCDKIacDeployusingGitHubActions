@@ -7,8 +7,8 @@ class FinancialAllocation(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         print("Started AWS CDK Python!")
-        environment_name = str(props.get("env_name"))
-        ecr_config = props.get("ecr")
+        environment_name = props.get('environment_name')
+        financial_allocation = props.get('financial_allocation')
 
         ###
         # IAM User Creation
@@ -32,7 +32,7 @@ class FinancialAllocation(Stack):
               
         ecr_lifecycle_rule = ecr.LifecycleRule(
             description="Expire images after x deployments",
-            max_image_count=4,
+            max_image_count=int(financial_allocation.get('ecr').get('lifecycle_policy_count')),
             # tag_status="any",
             rule_priority=1,
         )

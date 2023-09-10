@@ -105,6 +105,7 @@ jobs:
           echo "ENV_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           echo "ENV_TYPE=${{ vars.ENV_TYPE_NONPROD }}" >> $GITHUB_ENV
           echo "TARGET_ACCOUNT_ID_FOR_CDK=${{ vars.FA_AWS_ACCOUNT }}" >> $GITHUB_ENV
+          echo 'FINANCIAL_ALLOCATION_CONFIG=${{ vars.FINANCIAL_ALLOCATION_CONFIG_TEST }}' >> $GITHUB_ENV
 
       - name: Setup build version
         run: echo "BUILD_VERSION=${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ github.run_number }}"
@@ -121,6 +122,7 @@ jobs:
         env:
           ENV_NAME: "test"
           ENV_TYPE: ${{ env.ENV_TYPE }}
+          FINANCIAL_ALLOCATION_CONFIG: ${{ env.FINANCIAL_ALLOCATION_CONFIG }}
           BUILD_VERSION: ${{ env.BUILD_VERSION }}
 
       - name: Install boto3 dependency
