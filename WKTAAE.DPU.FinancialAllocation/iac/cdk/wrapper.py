@@ -77,7 +77,7 @@ else:
 
 logger.info("Starting CDK synth process...")
 r = subprocess.run(
-    ["cdk", "synth", "--no-color", "--progress", "--debug" "-vvv" "events"], #+ context,
+    ["cdk", "synth", "--no-color", "--progress", "--debug" "-vvv" "events"] + context,
     capture_output=True,
     text=True,
 )
