@@ -52,8 +52,6 @@ role_credentials = sts.assume_role(
     RoleSessionName='cdk1'
 )
 
-print("Role: "+ role_credentials)
-
 print("Role: "+ role_credentials.get('Credentials').get('AccessKeyId'))
 print("Role: "+ role_credentials.get('Credentials').get('SecretAccessKey'))
 print("Role: "+ role_credentials.get('Credentials').get('SecretAccessKey'))
