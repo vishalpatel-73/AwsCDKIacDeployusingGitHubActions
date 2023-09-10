@@ -99,7 +99,7 @@ r = subprocess.run([
     'never',
     '--progress',
     'events'
-], #+ context, 
+] + context, 
 capture_output=True, text=True)
 if r.returncode:
     logger.error(r.stderr)
