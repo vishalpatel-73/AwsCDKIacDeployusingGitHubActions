@@ -101,6 +101,8 @@ r = subprocess.run(
     [
         "cdk",
         "bootstrap",
+        "--destroy",
+        "--clean"
         # "--show-template",
         # "--no-color",
         # "--progress",

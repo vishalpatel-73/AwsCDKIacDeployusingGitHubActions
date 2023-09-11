@@ -14,82 +14,82 @@ env:
   MINOR_VERSION: 0
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      IAC_DIR: WKTAAE.DPU.FinancialAllocation/iac
-      SRC_DIR: WKTAAE.DPU.FinancialAllocation
-      # ASF_WORKER_DIR: WKTAAE.DPU.Allocation.ASF.Worker
-      # FII_WORKER_DIR: WKTAAE.DPU.Allocation.FII.Worker
-      # SI_WORKER_DIR: WKTAAE.DPU.Allocation.SI.Worker
-      # ASF_WORKER_PROJ: WKTAAE.DPU.Allocation.ASF.Worker.csproj
-      # FII_WORKER_PROJ: WKTAAE.DPU.Allocation.FII.Worker.csproj
-      # SI_WORKER_PROJ: WKTAAE.DPU.Allocation.SI.Worker.csproj
-      DOTNET_VERSION: "6.0.x"
-      CONFIGURATION: "Release"
-    steps:
-      - name: Print branch name
-        run: echo "Branch name ${GITHUB_REF_NAME}"
+  # build:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     IAC_DIR: WKTAAE.DPU.FinancialAllocation/iac
+  #     SRC_DIR: WKTAAE.DPU.FinancialAllocation
+  #     # ASF_WORKER_DIR: WKTAAE.DPU.Allocation.ASF.Worker
+  #     # FII_WORKER_DIR: WKTAAE.DPU.Allocation.FII.Worker
+  #     # SI_WORKER_DIR: WKTAAE.DPU.Allocation.SI.Worker
+  #     # ASF_WORKER_PROJ: WKTAAE.DPU.Allocation.ASF.Worker.csproj
+  #     # FII_WORKER_PROJ: WKTAAE.DPU.Allocation.FII.Worker.csproj
+  #     # SI_WORKER_PROJ: WKTAAE.DPU.Allocation.SI.Worker.csproj
+  #     DOTNET_VERSION: "6.0.x"
+  #     CONFIGURATION: "Release"
+  #   steps:
+  #     - name: Print branch name
+  #       run: echo "Branch name ${GITHUB_REF_NAME}"
 
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Setup .NET ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+  #     - name: Setup .NET ${{ matrix.dotnet-version }}
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        working-directory: ${{ env.SRC_DIR }}
-        run: dotnet restore
+  #     - name: Restore dependencies
+  #       working-directory: ${{ env.SRC_DIR }}
+  #       run: dotnet restore
 
-      - name: Build
-        working-directory: ${{ env.SRC_DIR }}
-        run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+  #     - name: Build
+  #       working-directory: ${{ env.SRC_DIR }}
+  #       run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
 
-      - name: Test
-        working-directory: ${{ env.SRC_DIR }}
-        run: dotnet test --no-restore --no-build --verbosity normal
+  #     - name: Test
+  #       working-directory: ${{ env.SRC_DIR }}
+  #       run: dotnet test --no-restore --no-build --verbosity normal
 
-      # - name: Publish Worker
-      #   working-directory: ${{ env.ASF_WORKER_DIR }}
-      #   run: dotnet publish ${{ env.ASF_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
+  #     # - name: Publish Worker
+  #     #   working-directory: ${{ env.ASF_WORKER_DIR }}
+  #     #   run: dotnet publish ${{ env.ASF_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
 
-      # - name: Publish Worker
-      #   working-directory: ${{ env.FII_WORKER_DIR }}
-      #   run: dotnet publish ${{ env.FII_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
+  #     # - name: Publish Worker
+  #     #   working-directory: ${{ env.FII_WORKER_DIR }}
+  #     #   run: dotnet publish ${{ env.FII_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
 
-      # - name: Publish Worker
-      #   working-directory: ${{ env.SI_WORKER_DIR }}
-      #   run: dotnet publish ${{ env.SI_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
+  #     # - name: Publish Worker
+  #     #   working-directory: ${{ env.SI_WORKER_DIR }}
+  #     #   run: dotnet publish ${{ env.SI_WORKER_PROJ }} --self-contained false --configuration ${{ env.CONFIGURATION }} --output publish/worker
 
-      # - name: Upload Worker artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ASF-worker
-      #     path: ${{ env.ASF_WORKER_DIR }}/publish
+  #     # - name: Upload Worker artifact
+  #     #   uses: actions/upload-artifact@v3
+  #     #   with:
+  #     #     name: ASF-worker
+  #     #     path: ${{ env.ASF_WORKER_DIR }}/publish
 
-      # - name: Upload Worker artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: FII-worker
-      #     path: ${{ env.FII_WORKER_DIR }}/publish
+  #     # - name: Upload Worker artifact
+  #     #   uses: actions/upload-artifact@v3
+  #     #   with:
+  #     #     name: FII-worker
+  #     #     path: ${{ env.FII_WORKER_DIR }}/publish
 
-      # - name: Upload Worker artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: SI-worker
-      #     path: ${{ env.SI_WORKER_DIR }}/publish
+  #     # - name: Upload Worker artifact
+  #     #   uses: actions/upload-artifact@v3
+  #     #   with:
+  #     #     name: SI-worker
+  #     #     path: ${{ env.SI_WORKER_DIR }}/publish
 
-      - name: Upload IaC artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: financial-allocation-iac
-          path: ${{ env.IAC_DIR }}
+  #     - name: Upload IaC artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: financial-allocation-iac
+  #         path: ${{ env.IAC_DIR }}
 
   deploy-cdk:
     runs-on: ubuntu-latest
-    needs: [build]
+    # needs: [build]
     env:
       CDK_DIR: cdk
       LIB_DIR: cdk/lib
