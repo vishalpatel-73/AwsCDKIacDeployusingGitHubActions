@@ -45,7 +45,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ env.SRC_DIR }}
-        run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
+        run: dotnet build --configuration ${{ env.CONFIGURATION }}
 
       - name: Test
         working-directory: ${{ env.SRC_DIR }}
