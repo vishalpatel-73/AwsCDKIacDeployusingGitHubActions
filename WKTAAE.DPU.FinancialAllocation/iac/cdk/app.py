@@ -16,7 +16,7 @@ FinancialAllocation(
     props,
     stack_name=f"FinancialAllocation-{props.get('env_name')}",
     env=core.Environment(
-        account=os.getenv("cdk_account"), region=os.getenv("cdk_default_region")
+        account=os.getenv("CDK_DEFAULT_ACCOUNT"), region=os.getenv("CDK_DEFAULT_REGION")
     ),
 )
 

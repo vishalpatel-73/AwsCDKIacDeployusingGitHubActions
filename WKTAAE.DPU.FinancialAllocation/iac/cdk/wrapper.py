@@ -50,6 +50,14 @@ role_credentials = sts.assume_role(
     RoleSessionName="cdk1",
 )
 
+# export environment variables with AWS credentials
+environ["AWS_ACCESS_KEY_ID"] = role_credentials.get('Credentials').get('AccessKeyId')
+environ["AWS_SECRET_ACCESS_KEY"] = role_credentials.get('Credentials').get('SecretAccessKey')
+environ["AWS_SESSION_TOKEN"] = role_credentials.get('Credentials').get('SessionToken')
+environ["AWS_DEFAULT_REGION"] = target_region
+environ["CDK_DEFAULT_ACCOUNT"] = target_account
+environ["CDK_DEFAULT_REGION"] = target_region
+
 # as we need some parameters created by other stacks or by deployment pipelines on Octopus
 # we gather these parameter from SSM Parameters Store and pass then through cdk context
 context = []
