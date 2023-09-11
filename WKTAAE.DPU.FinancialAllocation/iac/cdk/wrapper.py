@@ -51,9 +51,11 @@ role_credentials = sts.assume_role(
 )
 
 # export environment variables with AWS credentials
-environ["AWS_ACCESS_KEY_ID"] = role_credentials.get('Credentials').get('AccessKeyId')
-environ["AWS_SECRET_ACCESS_KEY"] = role_credentials.get('Credentials').get('SecretAccessKey')
-environ["AWS_SESSION_TOKEN"] = role_credentials.get('Credentials').get('SessionToken')
+environ["AWS_ACCESS_KEY_ID"] = role_credentials.get("Credentials").get("AccessKeyId")
+environ["AWS_SECRET_ACCESS_KEY"] = role_credentials.get("Credentials").get(
+    "SecretAccessKey"
+)
+environ["AWS_SESSION_TOKEN"] = role_credentials.get("Credentials").get("SessionToken")
 environ["AWS_DEFAULT_REGION"] = target_region
 environ["CDK_DEFAULT_ACCOUNT"] = target_account
 environ["CDK_DEFAULT_REGION"] = target_region
@@ -76,7 +78,7 @@ if env_name != "Management":
     #     param_filter=[
     #         f"/{env_name}/financial-allocation"
     #     ]
-    # )    
+    # )
     if "test" in env_name.lower():
         context += get_ssm_parameters(target_session, param_filter=["/cdk/fas/"])
 else:
@@ -96,7 +98,15 @@ logger.debug(r.stdout)
 
 logger.info("Starting CDK bootstrap process...")
 r = subprocess.run(
-    ["cdk", "bootstrap", "--show-template", "--no-color", "--progress", "--debug" "-vvv" "events"] + context,
+    [
+        "cdk",
+        "bootstrap",
+        "--show-template",
+        "--no-color",
+        "--progress",
+        "--debug" "-vvv" "events",
+    ]
+    + context,
     capture_output=True,
     text=True,
 )
@@ -107,19 +117,23 @@ logger.debug(r.stdout)
 
 # invoke the cdk deploy command
 logger.info(f"Starting deployment of Reporting Service Stack for {env_name}")
-r = subprocess.run([
-    'cdk',
-    'deploy',
-    '-vvv',
-    '--all',
-    '--no-color',
-    '--require-approval',
-    'never',
-    '--progress',
-    'events'
-] + context, 
-capture_output=True, text=True)
+r = subprocess.run(
+    [
+        "cdk",
+        "deploy",
+        "-vvv",
+        "--all",
+        "--no-color",
+        "--require-approval",
+        "never",
+        "--progress",
+        "events",
+    ]
+    + context,
+    capture_output=True,
+    text=True,
+)
 if r.returncode:
     logger.error(r.stderr)
-    raise SystemExit('An error occurred!')
+    raise SystemExit("An error occurred!")
 logger.debug(r.stdout)

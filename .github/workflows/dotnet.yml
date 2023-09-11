@@ -120,7 +120,7 @@ jobs:
           tokenSuffix: "}"
           files: "${{ env.LIB_DIR }}/params.py"
         env:
-          ENV_NAME: "test"
+          ENV_NAME: ${{ env.ENV_NAME }}
           ENV_TYPE: ${{ env.ENV_TYPE }}
           FINANCIAL_ALLOCATION_CONFIG: ${{ env.FINANCIAL_ALLOCATION_CONFIG }}
           BUILD_VERSION: ${{ env.BUILD_VERSION }}
