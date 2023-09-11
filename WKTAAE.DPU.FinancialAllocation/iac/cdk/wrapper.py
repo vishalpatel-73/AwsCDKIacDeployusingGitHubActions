@@ -96,24 +96,24 @@ if r.returncode:
     raise SystemExit("An error occurred!")
 logger.debug(r.stdout)
 
-logger.info("Starting CDK bootstrap process...")
-r = subprocess.run(
-    [
-        "cdk",
-        "bootstrap",
-        "--show-template",
-        "--no-color",
-        "--progress",
-        "--debug" "-vvv" "events",
-    ]
-    + context,
-    capture_output=True,
-    text=True,
-)
-if r.returncode:
-    logger.error(r.stderr)
-    raise SystemExit("An error occurred!")
-logger.debug(r.stdout)
+# logger.info("Starting CDK bootstrap process...")
+# r = subprocess.run(
+#     [
+#         "cdk",
+#         "bootstrap",
+#         "--show-template",
+#         "--no-color",
+#         "--progress",
+#         "--debug" "-vvv" "events",
+#     ]
+#     + context,
+#     capture_output=True,
+#     text=True,
+# )
+# if r.returncode:
+#     logger.error(r.stderr)
+#     raise SystemExit("An error occurred!")
+# logger.debug(r.stdout)
 
 # invoke the cdk deploy command
 logger.info(f"Starting deployment of Reporting Service Stack for {env_name}")
